@@ -129,6 +129,52 @@ Buttons:
 
 CraftPlan does not auto-upload or auto-download in this version.
 
+### Create The Apps Script Web App
+
+Online DB mode needs a Google Sheet and a Google Apps Script Web App that stores CraftPlan snapshots in that sheet.
+
+1. Create a new Google Sheet, or open the Google Sheet you want to use.
+2. Copy the full Google Sheet URL from your browser address bar. You will paste this into CraftPlan as `Google Sheet URL`.
+3. In the Google Sheet, open `Extensions > Apps Script`.
+4. Delete any starter code in the Apps Script editor.
+5. Copy everything from:
+
+   ```text
+   docs/apps-script/CraftPlanSync.gs
+   ```
+
+6. Paste it into the Apps Script editor.
+7. Change this line to a long private value that only your CraftPlan devices know:
+
+   ```javascript
+   const WORKSPACE_PRIVATE_KEY = "change-this-private-key";
+   ```
+
+8. Click `Save project`.
+9. Click `Deploy > New deployment`.
+10. Select `Web app`.
+11. Set:
+
+   ```text
+   Execute as: Me
+   Who has access: Anyone with the link
+   ```
+
+12. Click `Deploy`, approve the requested Google permissions, then copy the Web App URL.
+13. In CraftPlan, open `Settings > Database / Sync` and enter:
+
+   ```text
+   Database Mode: Online
+   Google Sheet URL: your Google Sheet URL
+   Apps Script Web App Endpoint URL: your Web App URL
+   Workspace Private Key: the same value from WORKSPACE_PRIVATE_KEY
+   Display Name: a name for this device/user
+   ```
+
+14. Click `Test Link`. If it succeeds, click `Save Online` to upload your current local data as the first online snapshot.
+
+Keep the Workspace Private Key private. Anyone with the Web App URL and that key can read or replace the CraftPlan data stored in the connected Google Sheet.
+
 ## Backups
 
 CraftPlan creates backups before destructive actions such as replacing data from online sync or importing a full package.
