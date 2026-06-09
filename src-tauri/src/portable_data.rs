@@ -50,7 +50,7 @@ fn storage_error(path: impl AsRef<Path>, message: impl Into<String>) -> StorageE
 }
 
 fn executable_dir() -> Result<PathBuf, StorageError> {
-    let exe = std::env::current_exe().map_err(|error| storage_error("CraftPlan.exe", format!("Could not locate the app executable: {error}")))?;
+    let exe = std::env::current_exe().map_err(|error| storage_error("CraftPlanner.exe", format!("Could not locate the app executable: {error}")))?;
     exe.parent()
         .map(Path::to_path_buf)
         .ok_or_else(|| storage_error(&exe, "Could not locate the executable folder."))
@@ -64,17 +64,17 @@ fn ensure_dir(path: &Path) -> Result<(), StorageError> {
     fs::create_dir_all(path).map_err(|error| {
         storage_error(
             path,
-            format!("CraftPlan needs read/write access to this folder: {error}"),
+            format!("CraftPlanner needs read/write access to this folder: {error}"),
         )
     })
 }
 
 fn check_writable(path: &Path) -> Result<(), StorageError> {
-    let probe = path.join(".craftplan-write-test");
+    let probe = path.join(".craftplanner-write-test");
     fs::File::create(&probe)
         .and_then(|mut file| file.write_all(b"ok"))
         .and_then(|_| fs::remove_file(&probe))
-        .map_err(|error| storage_error(path, format!("CraftPlan cannot write to this folder: {error}")))
+        .map_err(|error| storage_error(path, format!("CraftPlanner cannot write to this folder: {error}")))
 }
 
 fn ensure_storage() -> Result<PathBuf, StorageError> {
@@ -200,7 +200,7 @@ pub fn create_backup(_app: AppHandle) -> Result<String, StorageError> {
 #[tauri::command]
 pub fn write_json_export(_app: AppHandle, request: WriteJsonExportRequest) -> Result<String, StorageError> {
     let root = ensure_storage()?;
-    let destination = root.join("exports").join(format!("craftplan-export-{}.json", timestamp()));
+    let destination = root.join("exports").join(format!("craftplanner-export-{}.json", timestamp()));
     serde_json::from_str::<serde_json::Value>(&request.json)
         .map_err(|error| storage_error(&destination, format!("Export JSON is invalid: {error}")))?;
     fs::write(&destination, request.json).map_err(|error| storage_error(&destination, format!("Could not write export: {error}")))?;
@@ -215,7 +215,7 @@ pub fn read_text_file(_app: AppHandle, path: String) -> Result<String, StorageEr
 #[tauri::command]
 pub fn export_full_package(_app: AppHandle) -> Result<String, StorageError> {
     let root = ensure_storage()?;
-    let destination = root.join("exports").join(format!("craftplan-package-{}.zip", timestamp()));
+    let destination = root.join("exports").join(format!("craftplanner-package-{}.zip", timestamp()));
     let file = fs::File::create(&destination).map_err(|error| storage_error(&destination, format!("Could not create package: {error}")))?;
     let mut zip = zip::ZipWriter::new(file);
     let options = SimpleFileOptions::default().compression_method(zip::CompressionMethod::Deflated);

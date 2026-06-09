@@ -9,14 +9,18 @@ import {
   writeSyncState,
   callAppsScript,
   generateAssetManifest,
+  readAssetForSync,
+  writeAssetFromSync,
   replaceDataFromOnline,
   createBackup,
   type StorageInfo
 } from "../tauri/api";
 import {
+  assetsNeedingDownload,
+  assetsNeedingUpload,
   createDefaultSyncState,
-  canRunOnlineAction,
   validateSyncConfig,
+  validateSyncAssetManifest,
   parseSyncResponse,
   syncErrorMessage,
   type SyncState
@@ -100,7 +104,7 @@ export const useCraftPlanStore = create<CraftPlanState>((set, get) => ({
         status: {
           kind: "permission-error",
           path: storageError.path ?? "CraftPlanData",
-          message: storageError.message ?? "CraftPlan needs read/write access to CraftPlanData."
+          message: storageError.message ?? "CraftPlanner needs read/write access to CraftPlanData."
         }
       });
     }
@@ -242,6 +246,39 @@ export const useCraftPlanStore = create<CraftPlanState>((set, get) => ({
       await get().persistSyncState(syncState);
 
       const assetManifest = await generateAssetManifest();
+      const assetValidation = validateSyncAssetManifest(assetManifest);
+      if (!assetValidation.ok) throw new Error(assetValidation.errors.join(" "));
+
+      const remoteAssetsResponse = parseSyncResponse(
+        await callAppsScript(syncState.webAppUrl, {
+          action: "listAssets",
+          workspacePrivateKey: syncState.workspacePrivateKey,
+          googleSheetUrl: syncState.googleSheetUrl,
+          clientVersion: APP_VERSION,
+          deviceId: syncState.deviceId
+        })
+      );
+      if (!remoteAssetsResponse.ok) throw new Error(syncErrorMessage(remoteAssetsResponse));
+      if (remoteAssetsResponse.revision > syncState.lastRevision) {
+        throw new Error(syncErrorMessage({ ok: false, errorCode: "conflict", message: "Remote data changed before this client pushed." }));
+      }
+
+      const uploadAssets = assetsNeedingUpload(assetManifest, remoteAssetsResponse.assetManifest ?? []);
+      for (const asset of uploadAssets) {
+        const payload = await readAssetForSync(asset.relativePath);
+        const assetResponse = parseSyncResponse(
+          await callAppsScript(syncState.webAppUrl, {
+            action: "pushAsset",
+            workspacePrivateKey: syncState.workspacePrivateKey,
+            googleSheetUrl: syncState.googleSheetUrl,
+            clientVersion: APP_VERSION,
+            deviceId: syncState.deviceId,
+            asset: payload
+          })
+        );
+        if (!assetResponse.ok) throw new Error(syncErrorMessage(assetResponse));
+      }
+
       const request = {
         action: "pushSnapshot",
         workspacePrivateKey: syncState.workspacePrivateKey,
@@ -267,7 +304,7 @@ export const useCraftPlanStore = create<CraftPlanState>((set, get) => ({
         lastMessage: response.message ?? "Online data saved."
       };
       await get().persistSyncState(next);
-      set({ syncMessage: "Online data saved." });
+      set({ syncMessage: `Online data saved. ${uploadAssets.length} image ${uploadAssets.length === 1 ? "asset" : "assets"} synced.` });
     } catch (error) {
       const text = error instanceof Error ? error.message : "Online Save failed.";
       const next = {
@@ -308,6 +345,26 @@ export const useCraftPlanStore = create<CraftPlanState>((set, get) => ({
         return;
       }
 
+      const localAssets = await generateAssetManifest();
+      const downloadAssets = assetsNeedingDownload(localAssets, response.assetManifest ?? []);
+      await createBackup().catch(() => undefined);
+
+      for (const asset of downloadAssets) {
+        const assetResponse = parseSyncResponse(
+          await callAppsScript(syncState.webAppUrl, {
+            action: "pullAsset",
+            workspacePrivateKey: syncState.workspacePrivateKey,
+            googleSheetUrl: syncState.googleSheetUrl,
+            clientVersion: APP_VERSION,
+            deviceId: syncState.deviceId,
+            relativePath: asset.relativePath
+          })
+        );
+        if (!assetResponse.ok) throw new Error(syncErrorMessage(assetResponse));
+        if (!assetResponse.asset) throw new Error(`Online image asset ${asset.relativePath} is missing its file data.`);
+        await writeAssetFromSync(assetResponse.asset.relativePath, assetResponse.asset.base64);
+      }
+
       const backupPath = await replaceDataFromOnline(JSON.stringify(response.data, null, 2));
       await get().reloadData();
 
@@ -320,7 +377,7 @@ export const useCraftPlanStore = create<CraftPlanState>((set, get) => ({
         lastMessage: `Updated from online data. Backup: ${backupPath}`
       };
       await get().persistSyncState(next);
-      set({ syncMessage: "Updated from online data." });
+      set({ syncMessage: `Updated from online data. ${downloadAssets.length} image ${downloadAssets.length === 1 ? "asset" : "assets"} restored.` });
     } catch (error) {
       const text = error instanceof Error ? error.message : "Online Update failed.";
       const next = {

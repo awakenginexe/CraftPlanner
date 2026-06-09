@@ -1,8 +1,8 @@
 [package]
-name = "craftplan"
-version = "1.0.0"
-description = "CraftPlan desktop crafting planner"
-authors = ["CraftPlan"]
+name = "craftplanner"
+version = "1.1.0"
+description = "CraftPlanner desktop crafting planner"
+authors = ["CraftPlanner"]
 edition = "2021"
 
 [build-dependencies]

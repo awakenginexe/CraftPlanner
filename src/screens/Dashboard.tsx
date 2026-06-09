@@ -68,7 +68,7 @@ export function Dashboard() {
       {/* Getting Started Guide */}
       {empty ? (
         <motion.section variants={itemVariants} className="glass-panel glow-card rounded-2xl p-6">
-          <h2 className="text-base font-bold text-zinc-100">Welcome to CraftPlan</h2>
+          <h2 className="text-base font-bold text-zinc-100">Welcome to CraftPlanner</h2>
           <p className="mt-1.5 text-sm text-zinc-400">Let's set up your first workspace layout in a few simple steps:</p>
           <ol className="mt-4 grid gap-4 md:grid-cols-4 text-sm text-zinc-300">
             <li className="relative rounded-lg bg-zinc-950/40 border border-zinc-800/80 p-4">

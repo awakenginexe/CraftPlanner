@@ -609,8 +609,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "craftplan"
-version = "1.0.0"
+name = "craftplanner"
+version = "1.1.0"
 dependencies = [
  "base64 0.22.1",
  "chrono",

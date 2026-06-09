@@ -24,7 +24,7 @@ export function Sidebar({ activeScreen, onNavigate }: SidebarProps) {
             <Gauge className="h-5 w-5 text-zinc-950 stroke-[2.5]" />
           </div>
           <div>
-            <span className="text-base font-extrabold tracking-wide text-zinc-800 dark:text-zinc-100">CRAFTPLAN</span>
+            <span className="text-base font-extrabold tracking-wide text-zinc-800 dark:text-zinc-100">CRAFTPLANNER</span>
             <span className="block text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 tracking-wider">WORKSPACE</span>
           </div>
         </div>

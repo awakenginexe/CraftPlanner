@@ -1,3 +1,5 @@
+#![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
+
 mod portable_data;
 mod sync;
 
@@ -20,8 +22,10 @@ fn main() {
             sync::write_sync_state,
             sync::call_apps_script,
             sync::generate_asset_manifest,
+            sync::read_asset_for_sync,
+            sync::write_asset_from_sync,
             sync::replace_data_from_online
         ])
         .run(tauri::generate_context!())
-        .expect("failed to run CraftPlan");
+        .expect("failed to run CraftPlanner");
 }

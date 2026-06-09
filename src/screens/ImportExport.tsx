@@ -86,7 +86,7 @@ export function ImportExport() {
 
         <Textarea
           rows={10}
-          placeholder="Paste external CraftPlan JSON schema raw contents directly here..."
+          placeholder="Paste external CraftPlanner JSON schema raw contents directly here..."
           value={jsonText}
           onChange={(event) => parse(event.target.value)}
           className="font-mono text-xs border-zinc-800/80 bg-zinc-950/50"

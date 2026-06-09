@@ -29,6 +29,12 @@ export type AssetManifestEntry = {
   sha256: string;
   mimeType: string;
   sizeBytes: number;
+  updatedAt?: string;
+  revision?: number;
+};
+
+export type AssetPayload = AssetManifestEntry & {
+  base64: string;
 };
 
 export type AppsScriptSuccessResponse = {
@@ -37,6 +43,8 @@ export type AppsScriptSuccessResponse = {
   serverTime?: string;
   remoteUpdatedAt?: string;
   data?: CraftPlanData;
+  assetManifest?: AssetManifestEntry[];
+  asset?: AssetPayload;
   message?: string;
 };
 
@@ -50,6 +58,7 @@ export type AppsScriptResponse = AppsScriptSuccessResponse | AppsScriptErrorResp
 
 const GOOGLE_SHEET_RE = /^https:\/\/docs\.google\.com\/spreadsheets\/d\/[^/]+/;
 const APPS_SCRIPT_RE = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/;
+export const MAX_SYNC_ASSET_BYTES = 1024 * 1024;
 
 export function createDefaultSyncState(deviceId: string = crypto.randomUUID()): SyncState {
   return {
@@ -142,4 +151,25 @@ export function formatExactSyncTimestamp(timestamp: string | null | undefined): 
   const date = new Date(timestamp);
   if (Number.isNaN(date.getTime())) return "No timestamp";
   return date.toISOString().slice(0, 19).replace("T", " ");
+}
+
+export function validateSyncAssetManifest(manifest: AssetManifestEntry[]): ValidationResult {
+  const errors = manifest
+    .filter((entry) => entry.sizeBytes > MAX_SYNC_ASSET_BYTES)
+    .map((entry) => `${entry.relativePath} is larger than the 1 MB Online DB image sync limit.`);
+  return { ok: errors.length === 0, errors };
+}
+
+function assetMap(manifest: AssetManifestEntry[]): Map<string, AssetManifestEntry> {
+  return new Map(manifest.map((entry) => [entry.relativePath, entry]));
+}
+
+export function assetsNeedingUpload(local: AssetManifestEntry[], remote: AssetManifestEntry[]): AssetManifestEntry[] {
+  const remoteByPath = assetMap(remote);
+  return local.filter((entry) => remoteByPath.get(entry.relativePath)?.sha256 !== entry.sha256);
+}
+
+export function assetsNeedingDownload(local: AssetManifestEntry[], remote: AssetManifestEntry[]): AssetManifestEntry[] {
+  const localByPath = assetMap(local);
+  return remote.filter((entry) => localByPath.get(entry.relativePath)?.sha256 !== entry.sha256);
 }

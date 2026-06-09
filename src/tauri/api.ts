@@ -1,7 +1,7 @@
 import { invoke } from "@tauri-apps/api/core";
 import { open as openDialog } from "@tauri-apps/plugin-dialog";
 import { openPath } from "@tauri-apps/plugin-opener";
-import type { AppsScriptResponse, AssetManifestEntry, SyncState } from "../domain/sync";
+import type { AppsScriptResponse, AssetManifestEntry, AssetPayload, SyncState } from "../domain/sync";
 
 export type StorageInfo = {
   data_dir: string;
@@ -45,7 +45,7 @@ export async function chooseJsonFile(): Promise<string | null> {
 export async function chooseZipFile(): Promise<string | null> {
   const result = await openDialog({
     multiple: false,
-    filters: [{ name: "CraftPlan package", extensions: ["zip"] }]
+    filters: [{ name: "CraftPlanner package", extensions: ["zip"] }]
   });
   return typeof result === "string" ? result : null;
 }
@@ -96,6 +96,14 @@ export async function callAppsScript(webAppUrl: string, body: unknown): Promise<
 
 export async function generateAssetManifest(): Promise<AssetManifestEntry[]> {
   return invoke<AssetManifestEntry[]>("generate_asset_manifest");
+}
+
+export async function readAssetForSync(relativePath: string): Promise<AssetPayload> {
+  return invoke<AssetPayload>("read_asset_for_sync", { request: { relativePath } });
+}
+
+export async function writeAssetFromSync(relativePath: string, base64: string): Promise<AssetManifestEntry> {
+  return invoke<AssetManifestEntry>("write_asset_from_sync", { request: { relativePath, base64 } });
 }
 
 export async function replaceDataFromOnline(json: string): Promise<string> {

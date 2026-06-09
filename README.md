@@ -1,6 +1,6 @@
-# CraftPlan
+# CraftPlanner
 
-CraftPlan is a portable Windows app for planning crafting recipes, tracking inventory, and calculating missing materials.
+CraftPlanner is a portable Windows app for planning crafting recipes, tracking inventory, and calculating missing materials.
 
 It is made for people who want a simple planner they can move between folders or computers. It does not require an account, a server, or an install process to use offline.
 
@@ -16,7 +16,7 @@ It is made for people who want a simple planner they can move between folders or
 - Keep everything offline by default.
 - Optionally sync through your own Google Sheet and Apps Script Web App.
 
-CraftPlan is not tied to one game. You decide the item names, recipe names, quantities, images, and notes.
+CraftPlanner is not tied to one game. You decide the item names, recipe names, quantities, images, and notes.
 
 ## Download And Run
 
@@ -24,19 +24,19 @@ CraftPlan is not tied to one game. You decide the item names, recipe names, quan
 2. Extract the ZIP to a normal writable folder, such as:
 
    ```text
-   C:\Users\YourName\Documents\CraftPlan
+   C:\Users\YourName\Documents\CraftPlanner
    ```
 
-3. Open `CraftPlan.exe`.
+3. Open `CraftPlanner.exe`.
 
-Keep `CraftPlan.exe` and `CraftPlanData` together. That folder is where your planner data, images, backups, and exports are stored.
+Keep `CraftPlanner.exe` and `CraftPlanData` together. That folder is where your planner data, images, backups, and exports are stored.
 
 ## Portable Folder Layout
 
 After running the app, the folder looks like this:
 
 ```text
-CraftPlan.exe
+CraftPlanner.exe
 CraftPlanData/
   data.json
   sync-state.json
@@ -51,7 +51,7 @@ You can move the whole folder to another Windows computer. Your data moves with 
 
 ## Where Your Data Is Stored
 
-CraftPlan stores your main data in:
+CraftPlanner stores your main data in:
 
 ```text
 CraftPlanData/data.json
@@ -81,16 +81,16 @@ Offline DB mode is the default.
 
 In Offline DB mode:
 
-- CraftPlan uses only local files.
+- CraftPlanner uses only local files.
 - No network request is made.
 - No account login is required.
 - Your data stays in the `CraftPlanData` folder.
 
 In Online DB mode:
 
-- CraftPlan sends your planner data to the Apps Script Web App URL that you enter.
-- CraftPlan does not use Google OAuth login.
-- CraftPlan does not use Google service-account credentials.
+- CraftPlanner sends your planner data to the Apps Script Web App URL that you enter.
+- CraftPlanner does not use Google OAuth login.
+- CraftPlanner does not use Google service-account credentials.
 - The Workspace Private Key is an app-level shared secret for your Apps Script Web App.
 - For this version, the Workspace Private Key is saved locally in `CraftPlanData/sync-state.json`.
 
@@ -123,18 +123,20 @@ You need:
 Buttons:
 
 - `Test Connection` checks that the URLs and private key work.
-- `Save` uploads your current local CraftPlan data to the online database.
-- `Update` downloads online data and replaces local data after making a backup.
+- `Save Online` uploads your current local CraftPlanner data and changed small image assets to the online database.
+- `Update From Online` downloads online data and missing or changed small image assets after making a backup.
 - `Save Settings` saves your sync settings without uploading or downloading data.
 
-CraftPlan does not auto-upload or auto-download in this version.
+CraftPlanner does not auto-upload or auto-download in this version.
+
+Online DB image sync stores item images as base64 text chunks inside the Google Sheet. It is intended for small item icons and has a `1 MB` per-image limit. Use full package export/import for large image collections or as a complete backup.
 
 ### Create The Apps Script Web App
 
-Online DB mode needs a Google Sheet and a Google Apps Script Web App that stores CraftPlan snapshots in that sheet.
+Online DB mode needs a Google Sheet and a Google Apps Script Web App that stores CraftPlanner snapshots in that sheet.
 
 1. Create a new Google Sheet, or open the Google Sheet you want to use.
-2. Copy the full Google Sheet URL from your browser address bar. You will paste this into CraftPlan as `Google Sheet URL`.
+2. Copy the full Google Sheet URL from your browser address bar. You will paste this into CraftPlanner as `Google Sheet URL`.
 3. In the Google Sheet, open `Extensions > Apps Script`.
 4. Delete any starter code in the Apps Script editor.
 5. Copy everything from:
@@ -144,7 +146,7 @@ Online DB mode needs a Google Sheet and a Google Apps Script Web App that stores
    ```
 
 6. Paste it into the Apps Script editor.
-7. Change this line to a long private value that only your CraftPlan devices know:
+7. Change this line to a long private value that only your CraftPlanner devices know:
 
    ```javascript
    const WORKSPACE_PRIVATE_KEY = "change-this-private-key";
@@ -161,7 +163,7 @@ Online DB mode needs a Google Sheet and a Google Apps Script Web App that stores
    ```
 
 12. Click `Deploy`, approve the requested Google permissions, then copy the Web App URL.
-13. In CraftPlan, open `Settings > Database / Sync` and enter:
+13. In CraftPlanner, open `Settings > Database / Sync` and enter:
 
    ```text
    Database Mode: Online
@@ -173,11 +175,11 @@ Online DB mode needs a Google Sheet and a Google Apps Script Web App that stores
 
 14. Click `Test Link`. If it succeeds, click `Save Online` to upload your current local data as the first online snapshot.
 
-Keep the Workspace Private Key private. Anyone with the Web App URL and that key can read or replace the CraftPlan data stored in the connected Google Sheet.
+Keep the Workspace Private Key private. Anyone with the Web App URL and that key can read or replace the CraftPlanner data stored in the connected Google Sheet.
 
 ## Backups
 
-CraftPlan creates backups before destructive actions such as replacing data from online sync or importing a full package.
+CraftPlanner creates backups before destructive actions such as replacing data from online sync or importing a full package.
 
 Backups are saved in:
 
@@ -217,7 +219,9 @@ C:\Windows
 
 ### Images are missing
 
-Use a full package export/import when moving data with images. A plain JSON export does not include image files.
+If you use Online DB, press `Update From Online` to restore missing synced item images. Online DB image sync only supports images up to `1 MB` each.
+
+Use a full package export/import when moving large image collections. A plain JSON export does not include image files.
 
 ### Online sync says there is a conflict
 
@@ -231,9 +235,9 @@ Press `Save` to upload your current local data as the first online snapshot.
 
 ## Version
 
-Current version: `1.0.0`
+Current version: `1.1.0`
 
-CraftPlan does not include an automatic update system in this version. Download a newer release manually when you want to update.
+CraftPlanner does not include an automatic update system in this version. Download a newer release manually when you want to update.
 
 ## For Maintainers
 

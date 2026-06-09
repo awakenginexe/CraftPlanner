@@ -1,5 +1,8 @@
 import { describe, expect, test } from "vitest";
 import {
+  MAX_SYNC_ASSET_BYTES,
+  assetsNeedingDownload,
+  assetsNeedingUpload,
   canRunOnlineAction,
   createDefaultSyncState,
   formatExactSyncTimestamp,
@@ -7,6 +10,7 @@ import {
   parseSyncResponse,
   redactWorkspacePrivateKey,
   syncErrorMessage,
+  validateSyncAssetManifest,
   validateSyncConfig
 } from "../domain/sync";
 
@@ -106,5 +110,34 @@ describe("sync helpers", () => {
     expect(formatExactSyncTimestamp(null)).toBe("No timestamp");
     expect(formatExactSyncTimestamp("bad")).toBe("No timestamp");
     expect(formatExactSyncTimestamp("2026-06-10T07:05:22.000Z")).toBe("2026-06-10 07:05:22");
+  });
+
+  test("flags assets over the online sync size limit", () => {
+    const result = validateSyncAssetManifest([
+      { relativePath: "assets/items/large.png", sha256: "a", mimeType: "image/png", sizeBytes: MAX_SYNC_ASSET_BYTES + 1 }
+    ]);
+
+    expect(result.ok).toBe(false);
+    expect(result.errors).toEqual(["assets/items/large.png is larger than the 1 MB Online DB image sync limit."]);
+  });
+
+  test("selects only missing or changed assets for upload", () => {
+    const local = [
+      { relativePath: "assets/items/a.png", sha256: "same", mimeType: "image/png", sizeBytes: 12 },
+      { relativePath: "assets/items/b.png", sha256: "new", mimeType: "image/png", sizeBytes: 12 }
+    ];
+    const remote = [{ relativePath: "assets/items/a.png", sha256: "same", mimeType: "image/png", sizeBytes: 12 }];
+
+    expect(assetsNeedingUpload(local, remote).map((entry) => entry.relativePath)).toEqual(["assets/items/b.png"]);
+  });
+
+  test("selects only missing or changed assets for download", () => {
+    const local = [{ relativePath: "assets/items/a.png", sha256: "old", mimeType: "image/png", sizeBytes: 12 }];
+    const remote = [
+      { relativePath: "assets/items/a.png", sha256: "new", mimeType: "image/png", sizeBytes: 12 },
+      { relativePath: "assets/items/c.png", sha256: "remote", mimeType: "image/png", sizeBytes: 12 }
+    ];
+
+    expect(assetsNeedingDownload(local, remote).map((entry) => entry.relativePath)).toEqual(["assets/items/a.png", "assets/items/c.png"]);
   });
 });

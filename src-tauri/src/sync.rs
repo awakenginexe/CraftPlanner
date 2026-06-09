@@ -1,3 +1,4 @@
+use base64::Engine;
 use chrono::Local;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -51,6 +52,19 @@ pub struct ReplaceDataRequest {
     pub json: String,
 }
 
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct ReadAssetRequest {
+    pub relative_path: String,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct WriteAssetRequest {
+    pub relative_path: String,
+    pub base64: String,
+}
+
 #[derive(Debug, Serialize)]
 #[serde(rename_all = "camelCase")]
 pub struct AssetManifestEntry {
@@ -60,6 +74,18 @@ pub struct AssetManifestEntry {
     pub size_bytes: u64,
 }
 
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AssetPayload {
+    pub relative_path: String,
+    pub sha256: String,
+    pub mime_type: String,
+    pub size_bytes: u64,
+    pub base64: String,
+}
+
+const MAX_SYNC_ASSET_BYTES: u64 = 1024 * 1024;
+
 fn sync_error(path: impl AsRef<Path>, message: impl Into<String>) -> SyncError {
     SyncError {
         path: path.as_ref().display().to_string(),
@@ -68,7 +94,7 @@ fn sync_error(path: impl AsRef<Path>, message: impl Into<String>) -> SyncError {
 }
 
 fn executable_dir() -> Result<PathBuf, SyncError> {
-    let exe = std::env::current_exe().map_err(|error| sync_error("CraftPlan.exe", format!("Could not locate the app executable: {error}")))?;
+    let exe = std::env::current_exe().map_err(|error| sync_error("CraftPlanner.exe", format!("Could not locate the app executable: {error}")))?;
     exe.parent()
         .map(Path::to_path_buf)
         .ok_or_else(|| sync_error(&exe, "Could not locate the executable folder."))
@@ -79,7 +105,7 @@ fn data_dir() -> Result<PathBuf, SyncError> {
 }
 
 fn ensure_dir(path: &Path) -> Result<(), SyncError> {
-    fs::create_dir_all(path).map_err(|error| sync_error(path, format!("CraftPlan needs read/write access to this folder: {error}")))
+    fs::create_dir_all(path).map_err(|error| sync_error(path, format!("CraftPlanner needs read/write access to this folder: {error}")))
 }
 
 fn ensure_storage() -> Result<PathBuf, SyncError> {
@@ -113,6 +139,19 @@ fn default_sync_state() -> SyncState {
 
 fn safe_relative_path(path: &Path) -> bool {
     path.components().all(|component| matches!(component, Component::Normal(_) | Component::CurDir))
+}
+
+fn resolve_sync_asset_path(root: &Path, relative_path: &str) -> Result<(PathBuf, String), SyncError> {
+    let normalized = relative_path.replace('\\', "/");
+    let relative = Path::new(&normalized);
+    if !safe_relative_path(relative) || !normalized.starts_with("assets/items/") {
+        return Err(sync_error(relative_path, "Asset path is not valid for Online DB sync."));
+    }
+    let extension = relative.extension().and_then(|value| value.to_str()).unwrap_or("").to_lowercase();
+    if !["png", "jpg", "jpeg", "webp"].contains(&extension.as_str()) {
+        return Err(sync_error(relative_path, "Online DB image sync supports PNG, JPG, JPEG, and WEBP assets."));
+    }
+    Ok((root.join(relative), normalized))
 }
 
 fn mime_for_path(path: &Path) -> &'static str {
@@ -207,6 +246,58 @@ pub fn generate_asset_manifest(_app: AppHandle) -> Result<Vec<AssetManifestEntry
     }
     manifest.sort_by(|left, right| left.relative_path.cmp(&right.relative_path));
     Ok(manifest)
+}
+
+#[tauri::command]
+pub fn read_asset_for_sync(_app: AppHandle, request: ReadAssetRequest) -> Result<AssetPayload, SyncError> {
+    let root = ensure_storage()?;
+    let (file, normalized) = resolve_sync_asset_path(&root, &request.relative_path)?;
+    let bytes = fs::read(&file).map_err(|error| sync_error(&file, format!("Could not read image asset: {error}")))?;
+    if bytes.len() as u64 > MAX_SYNC_ASSET_BYTES {
+        return Err(sync_error(
+            &file,
+            format!("{normalized} is larger than the 1 MB Online DB image sync limit."),
+        ));
+    }
+    let sha256 = format!("{:x}", Sha256::digest(&bytes));
+    Ok(AssetPayload {
+        relative_path: normalized,
+        sha256,
+        mime_type: mime_for_path(&file).to_string(),
+        size_bytes: bytes.len() as u64,
+        base64: base64::engine::general_purpose::STANDARD.encode(bytes),
+    })
+}
+
+#[tauri::command]
+pub fn write_asset_from_sync(_app: AppHandle, request: WriteAssetRequest) -> Result<AssetManifestEntry, SyncError> {
+    let root = ensure_storage()?;
+    let (file, normalized) = resolve_sync_asset_path(&root, &request.relative_path)?;
+    let bytes = base64::engine::general_purpose::STANDARD
+        .decode(request.base64.as_bytes())
+        .map_err(|error| sync_error(&normalized, format!("Remote image asset is not valid base64: {error}")))?;
+    if bytes.len() as u64 > MAX_SYNC_ASSET_BYTES {
+        return Err(sync_error(
+            &normalized,
+            format!("{normalized} is larger than the 1 MB Online DB image sync limit."),
+        ));
+    }
+    if let Some(parent) = file.parent() {
+        ensure_dir(parent)?;
+    }
+    let temp = file.with_extension("sync-download.tmp");
+    fs::write(&temp, &bytes).map_err(|error| sync_error(&temp, format!("Could not write remote image asset: {error}")))?;
+    if file.exists() {
+        fs::remove_file(&file).map_err(|error| sync_error(&file, format!("Could not replace local image asset: {error}")))?;
+    }
+    fs::rename(&temp, &file).map_err(|error| sync_error(&file, format!("Could not replace local image asset: {error}")))?;
+    let sha256 = format!("{:x}", Sha256::digest(&bytes));
+    Ok(AssetManifestEntry {
+        relative_path: normalized,
+        sha256,
+        mime_type: mime_for_path(&file).to_string(),
+        size_bytes: bytes.len() as u64,
+    })
 }
 
 #[tauri::command]

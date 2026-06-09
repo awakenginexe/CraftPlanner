@@ -7,7 +7,7 @@ import { validateImportData } from "../domain/validation";
 const data = egoGiftData as CraftPlanData;
 
 describe("EGO Gift Google Sheet import data", () => {
-  it("is valid CraftPlan data with party-member column ignored", () => {
+  it("is valid CraftPlanner data with party-member column ignored", () => {
     const validation = validateImportData(data);
 
     expect(validation.ok).toBe(true);

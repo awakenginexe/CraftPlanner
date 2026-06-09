@@ -41,7 +41,7 @@ export function Settings() {
   }, [clearSyncMessage]);
 
   async function reset() {
-    if (!window.confirm("Reset all CraftPlan data? A backup will be created first.")) return;
+    if (!window.confirm("Reset all CraftPlanner data? A backup will be created first.")) return;
     await createBackup().catch(() => undefined);
     await saveData(createDefaultData());
     setLocalMessage("Data reset.");
@@ -196,7 +196,11 @@ export function Settings() {
             <p className="text-xs text-zinc-500 italic mt-1">
               Offline mode stores all items, recipe plans, and stock quantities safely inside your local Tauri sandbox without making any remote network calls.
             </p>
-          ) : null}
+          ) : (
+            <p className="text-xs text-zinc-500 italic mt-1">
+              Online DB sync stores small item images in Google Sheets text chunks. Each synced image must be 1 MB or smaller.
+            </p>
+          )}
         </div>
 
         {/* Sync Input Config Fields */}
