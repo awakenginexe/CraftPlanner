@@ -1,0 +1,699 @@
+{
+  "appVersion": "1.0.0",
+  "dataVersion": 1,
+  "items": [
+    {
+      "id": "ego-gift-sin-drenched-roses",
+      "name": "Sin drenched roses",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-lunar-desire",
+      "name": "Lunar Desire",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-lunar-envy",
+      "name": "Lunar Envy",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-lunar-gloom",
+      "name": "Lunar Gloom",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-lunar-gluttony",
+      "name": "Lunar Gluttony",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-lunar-pride",
+      "name": "Lunar Pride",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-lunar-sloth",
+      "name": "Lunar Sloth",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-lunar-wrath",
+      "name": "Lunar Wrath",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-rusted-muzzle",
+      "name": "Rusted muzzle",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-rope",
+      "name": "Rope",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-dark-desire",
+      "name": "Dark Desire",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-faint-desire",
+      "name": "Faint Desire",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-twinkling-desire",
+      "name": "Twinkling Desire",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-scrap-metal",
+      "name": "Scrap Metal",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-fiery-down",
+      "name": "Fiery Down",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-brilliant-wrath",
+      "name": "Brilliant Wrath",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-spices",
+      "name": "Spices",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-barbed-lasso",
+      "name": "Barbed Lasso",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-dark-gloom",
+      "name": "Dark Gloom",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-faint-gloom",
+      "name": "Faint Gloom",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-brilliant-gluttony",
+      "name": "Brilliant Gluttony",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-twinkling-gluttony",
+      "name": "Twinkling Gluttony",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-tailsman-bundle",
+      "name": "Tailsman Bundle",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-dark-gluttony",
+      "name": "Dark Gluttony",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-faint-gluttony",
+      "name": "Faint Gluttony",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-fabric",
+      "name": "Fabric",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-nebulizer",
+      "name": "Nebulizer",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-sanity-ampule",
+      "name": "Sanity Ampule",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-dark-pride",
+      "name": "Dark Pride",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-twinkling-pride",
+      "name": "Twinkling Pride",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-hardblood-fragment",
+      "name": "Hardblood Fragment",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-rusty-commemorative-coin",
+      "name": "Rusty Commemorative Coin",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-dark-sloth",
+      "name": "Dark Sloth",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-twinkling-sloth",
+      "name": "Twinkling Sloth",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-hardwood-cup",
+      "name": "Hardwood Cup",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-brilliannt-gluttony",
+      "name": "Brilliannt Gluttony",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-plate",
+      "name": "Plate",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-the-darink",
+      "name": "The Darink",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "ego-gift-phlebotomy-pack",
+      "name": "Phlebotomy Pack",
+      "category": "EGO Gift",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-vitality-ampule",
+      "name": "Vitality Ampule",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "material-twinkling-wrath",
+      "name": "Twinkling Wrath",
+      "category": "Material",
+      "imageMode": "none",
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "recipe-sin-drenched-roses",
+      "name": "Sin drenched roses",
+      "outputItemId": "ego-gift-sin-drenched-roses",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-lunar-desire",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-lunar-envy",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-lunar-gloom",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-lunar-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-lunar-pride",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-lunar-sloth",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-lunar-wrath",
+          "quantity": 1
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 2. Column A ignored. Column C gives required materials; column D gives leftovers after crafting. Leftovers: Lunar Wrath 1.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-rusted-muzzle",
+      "name": "Rusted muzzle",
+      "outputItemId": "ego-gift-rusted-muzzle",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-rope",
+          "quantity": 4
+        },
+        {
+          "itemId": "material-dark-desire",
+          "quantity": 4
+        },
+        {
+          "itemId": "material-faint-desire",
+          "quantity": 2
+        },
+        {
+          "itemId": "material-twinkling-desire",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-scrap-metal",
+          "quantity": 2
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 3. Column A ignored. Column C gives required materials; column D gives leftovers after crafting. Leftovers: Dark Desire 3, Faint Desire 9, Twinkling Desire 3. Status: Recovered.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-fiery-down",
+      "name": "Fiery Down",
+      "outputItemId": "ego-gift-fiery-down",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-faint-desire",
+          "quantity": 3
+        },
+        {
+          "itemId": "material-brilliant-wrath",
+          "quantity": 4
+        },
+        {
+          "itemId": "material-spices",
+          "quantity": 2
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 4. Column A ignored. Column C gives required materials; column D gives leftovers after crafting. Leftovers: Faint Desire 6.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-barbed-lasso",
+      "name": "Barbed Lasso",
+      "outputItemId": "ego-gift-barbed-lasso",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-dark-gloom",
+          "quantity": 3
+        },
+        {
+          "itemId": "material-faint-gloom",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-brilliant-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-twinkling-gluttony",
+          "quantity": 1
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 5. Column A ignored. Column C gives required materials; column D gives leftovers after crafting. Leftovers: Faint Gloom 2.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-tailsman-bundle",
+      "name": "Tailsman Bundle",
+      "outputItemId": "ego-gift-tailsman-bundle",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-dark-gluttony",
+          "quantity": 4
+        },
+        {
+          "itemId": "material-faint-gluttony",
+          "quantity": 2
+        },
+        {
+          "itemId": "material-twinkling-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-fabric",
+          "quantity": 2
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 6. Column A ignored. Column C gives required materials; column D gives leftovers after crafting.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-nebulizer",
+      "name": "Nebulizer",
+      "outputItemId": "ego-gift-nebulizer",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-scrap-metal",
+          "quantity": 12
+        },
+        {
+          "itemId": "material-sanity-ampule",
+          "quantity": 5
+        },
+        {
+          "itemId": "material-dark-pride",
+          "quantity": 5
+        },
+        {
+          "itemId": "material-twinkling-pride",
+          "quantity": 4
+        },
+        {
+          "itemId": "material-lunar-pride",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-hardblood-fragment",
+          "quantity": 1
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 7. Column A ignored. Column C gives required materials; column D gives leftovers after crafting. Leftovers: Dark Pride 6.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-rusty-commemorative-coin",
+      "name": "Rusty Commemorative Coin",
+      "outputItemId": "ego-gift-rusty-commemorative-coin",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-scrap-metal",
+          "quantity": 20
+        },
+        {
+          "itemId": "material-dark-sloth",
+          "quantity": 4
+        },
+        {
+          "itemId": "material-twinkling-sloth",
+          "quantity": 3
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 8. Column A ignored. Column C gives required materials; column D gives leftovers after crafting.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-hardwood-cup",
+      "name": "Hardwood Cup",
+      "outputItemId": "ego-gift-hardwood-cup",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-lunar-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-brilliannt-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-twinkling-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-faint-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-dark-gluttony",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-plate",
+          "quantity": 1
+        },
+        {
+          "itemId": "material-the-darink",
+          "quantity": 1
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 9. Column A ignored. Column C gives required materials; column D gives leftovers after crafting.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    },
+    {
+      "id": "recipe-phlebotomy-pack",
+      "name": "Phlebotomy Pack",
+      "outputItemId": "ego-gift-phlebotomy-pack",
+      "outputQuantity": 1,
+      "ingredients": [
+        {
+          "itemId": "material-vitality-ampule",
+          "quantity": 10
+        },
+        {
+          "itemId": "material-twinkling-wrath",
+          "quantity": 4
+        },
+        {
+          "itemId": "material-dark-gluttony",
+          "quantity": 2
+        },
+        {
+          "itemId": "material-hardblood-fragment",
+          "quantity": 1
+        }
+      ],
+      "note": "Imported from Google Sheet 'EGO Gift' row 10. Column A ignored. Column C gives required materials; column D gives leftovers after crafting.",
+      "isDefault": true,
+      "createdAt": "2026-06-09T00:00:00.000Z",
+      "updatedAt": "2026-06-09T00:00:00.000Z"
+    }
+  ],
+  "inventory": [
+    {
+      "itemId": "material-brilliant-gluttony",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-brilliant-wrath",
+      "quantity": 2
+    },
+    {
+      "itemId": "material-dark-desire",
+      "quantity": 7
+    },
+    {
+      "itemId": "material-dark-gloom",
+      "quantity": 3
+    },
+    {
+      "itemId": "material-dark-gluttony",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-dark-pride",
+      "quantity": 11
+    },
+    {
+      "itemId": "material-dark-sloth",
+      "quantity": 3
+    },
+    {
+      "itemId": "material-faint-desire",
+      "quantity": 11
+    },
+    {
+      "itemId": "material-faint-gloom",
+      "quantity": 3
+    },
+    {
+      "itemId": "material-faint-gluttony",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-lunar-desire",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-lunar-envy",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-lunar-gloom",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-lunar-wrath",
+      "quantity": 2
+    },
+    {
+      "itemId": "material-the-darink",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-twinkling-desire",
+      "quantity": 4
+    },
+    {
+      "itemId": "material-twinkling-gluttony",
+      "quantity": 1
+    },
+    {
+      "itemId": "material-twinkling-pride",
+      "quantity": 4
+    },
+    {
+      "itemId": "material-twinkling-wrath",
+      "quantity": 1
+    }
+  ],
+  "settings": {
+    "theme": "dark"
+  },
+  "createdAt": "2026-06-09T00:00:00.000Z",
+  "updatedAt": "2026-06-09T00:00:00.000Z"
+}

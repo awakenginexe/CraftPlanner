@@ -1,0 +1,150 @@
+name: Build Portable Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build-release:
+    name: Build Windows portable ZIP
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Build Tauri app
+        run: npm run tauri:build
+
+      - name: Prepare portable ZIP
+        shell: pwsh
+        run: |
+          $version = (Get-Content package.json | ConvertFrom-Json).version
+          $packageName = "CraftPlan-v$version-portable"
+          $stageRoot = Join-Path $env:RUNNER_TEMP $packageName
+          $zipPath = Join-Path $env:GITHUB_WORKSPACE "$packageName.zip"
+
+          New-Item -ItemType Directory -Force -Path $stageRoot | Out-Null
+          New-Item -ItemType Directory -Force -Path (Join-Path $stageRoot "CraftPlanData/assets/items") | Out-Null
+          New-Item -ItemType Directory -Force -Path (Join-Path $stageRoot "CraftPlanData/assets/thumbnails") | Out-Null
+          New-Item -ItemType Directory -Force -Path (Join-Path $stageRoot "CraftPlanData/backups") | Out-Null
+          New-Item -ItemType Directory -Force -Path (Join-Path $stageRoot "CraftPlanData/exports") | Out-Null
+
+          Copy-Item "src-tauri/target/release/craftplan.exe" (Join-Path $stageRoot "CraftPlan.exe")
+          Copy-Item "README.md" (Join-Path $stageRoot "README.md")
+          Copy-Item "docs/apps-script/CraftPlanSync.gs" (Join-Path $stageRoot "CraftPlanSync.gs")
+
+          if (Test-Path $zipPath) {
+            Remove-Item $zipPath -Force
+          }
+
+          Compress-Archive -Path $stageRoot -DestinationPath $zipPath -Force
+          "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "PACKAGE_NAME=$packageName" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "ZIP_PATH=$zipPath" | Out-File -FilePath $env:GITHUB_ENV -Append
+          "HF_FILE_PATH=releases/$packageName.zip" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Upload ZIP to Hugging Face
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+          HF_REPO_ID: ${{ vars.HF_REPO_ID }}
+          HF_REPO_TYPE: ${{ vars.HF_REPO_TYPE || 'model' }}
+        shell: pwsh
+        run: |
+          if (-not $env:HF_TOKEN) {
+            throw "Missing HF_TOKEN secret."
+          }
+          if (-not $env:HF_REPO_ID) {
+            throw "Missing HF_REPO_ID repository variable."
+          }
+
+          python -m pip install --upgrade huggingface_hub
+          @'
+          import os
+          from huggingface_hub import HfApi
+
+          api = HfApi(token=os.environ["HF_TOKEN"])
+          api.upload_file(
+              path_or_fileobj=os.environ["ZIP_PATH"],
+              path_in_repo=os.environ["HF_FILE_PATH"],
+              repo_id=os.environ["HF_REPO_ID"],
+              repo_type=os.environ.get("HF_REPO_TYPE", "model"),
+              commit_message=f"Upload CraftPlan {os.environ['VERSION']} portable ZIP",
+          )
+          '@ | python -
+
+      - name: Build release notes
+        shell: pwsh
+        run: |
+          $repoType = "${{ vars.HF_REPO_TYPE || 'model' }}"
+          $repoId = "${{ vars.HF_REPO_ID }}"
+          $prefix = ""
+          if ($repoType -eq "dataset") {
+            $prefix = "datasets/"
+          } elseif ($repoType -eq "space") {
+            $prefix = "spaces/"
+          }
+          $downloadUrl = "https://huggingface.co/$prefix$repoId/resolve/main/$env:HF_FILE_PATH?download=true"
+          $notes = @"
+          # CraftPlan $env:VERSION
+
+          Download the portable Windows ZIP:
+
+          [$env:PACKAGE_NAME.zip]($downloadUrl)
+
+          This GitHub Release points to the ZIP hosted on Hugging Face. CraftPlan does not include an automatic update system; download a newer release manually when needed.
+
+          Basic use:
+
+          1. Download the ZIP.
+          2. Extract it to a writable folder.
+          3. Open `CraftPlan.exe`.
+          4. Keep `CraftPlan.exe` and `CraftPlanData` together.
+          "@
+          $notesPath = Join-Path $env:RUNNER_TEMP "release-notes.md"
+          $notes | Set-Content -Path $notesPath
+          "RELEASE_NOTES=$notesPath" | Out-File -FilePath $env:GITHUB_ENV -Append
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: pwsh
+        run: |
+          $tag = "${{ github.ref_name }}"
+          if ("${{ github.ref_type }}" -ne "tag") {
+            $tag = "v$env:VERSION"
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            $remoteTag = git ls-remote --tags origin "refs/tags/$tag"
+            if (-not $remoteTag) {
+              git tag $tag
+              git push origin $tag
+            }
+          }
+
+          $existing = gh release view $tag --json tagName 2>$null
+          if ($LASTEXITCODE -eq 0) {
+            gh release edit $tag --title "CraftPlan $env:VERSION" --notes-file "$env:RELEASE_NOTES" --latest
+          } else {
+            gh release create $tag --title "CraftPlan $env:VERSION" --notes-file "$env:RELEASE_NOTES" --latest
+          }

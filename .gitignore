@@ -1,0 +1,76 @@
+# Dependencies
+node_modules/
+
+# Frontend build output
+dist/
+
+# Tauri/Rust build output
+src-tauri/target/
+
+# Local portable builds and app data
+portable/
+CraftPlanData/
+**/CraftPlanData/
+
+# User data files created by CraftPlan
+data.json
+sync-state.json
+backups/
+exports/
+assets/items/
+assets/thumbnails/
+
+# Local secrets and machine-specific settings
+.env
+.env.*
+!.env.example
+*.local
+*.secret
+*.secrets
+secrets/
+
+# Logs and crash reports
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.dmp
+*.stackdump
+
+# Operating system and file manager metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+System Volume Information/
+
+# Editor and personal workspace metadata
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Local Superpowers/Codex workspace metadata
+.superpowers/
+.codex/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+
+# Generated release archives/installers
+*.zip
+*.7z
+*.rar
+*.msi
+*.exe
+*.sig

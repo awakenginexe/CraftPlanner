@@ -1,0 +1,138 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  
+  /* Light theme variables */
+  --bg-gradient-from: #f8fafc;
+  --bg-gradient-to: #e2e8f0;
+  --text-main: #0f172a;
+  --border-color: rgba(15, 23, 42, 0.08);
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-bg-hover: rgba(255, 255, 255, 0.85);
+  --shadow-glow: 0 10px 30px -10px rgba(16, 185, 129, 0.08);
+}
+
+.dark {
+  color-scheme: dark;
+  /* Dark theme variables */
+  --bg-gradient-from: #090a0f;
+  --bg-gradient-to: #121520;
+  --text-main: #f4f4f5;
+  --border-color: rgba(255, 255, 255, 0.06);
+  --glass-bg: rgba(20, 24, 33, 0.65);
+  --glass-bg-hover: rgba(20, 24, 33, 0.8);
+  --shadow-glow: 0 10px 30px -10px rgba(16, 185, 129, 0.15);
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  background: radial-gradient(circle at 50% 0%, var(--bg-gradient-to) 0%, var(--bg-gradient-from) 100%);
+  color: var(--text-main);
+  overflow-x: hidden;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body {
+  margin: 0;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(120, 120, 120, 0.2);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.3);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+/* Custom modern CSS utilities */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color);
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-panel-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-panel-hover:hover {
+  background: var(--glass-bg-hover);
+  border-color: rgba(16, 185, 129, 0.35);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Card Glow Effect */
+.glow-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.glow-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+}
+
+/* Input Focus Glow */
+.input-glow {
+  transition: all 0.2s ease-in-out;
+}
+
+.input-glow:focus {
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.12);
+  border-color: rgba(16, 185, 129, 0.5);
+}
+
+/* Animations */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(0.97);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-soft 2s infinite ease-in-out;
+}
+
+
