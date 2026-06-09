@@ -104,15 +104,15 @@ jobs:
           } elseif ($repoType -eq "space") {
             $prefix = "spaces/"
           }
-          $downloadUrl = "https://huggingface.co/$prefix$repoId/resolve/main/$env:HF_FILE_PATH?download=true"
+          $downloadUrl = "https://huggingface.co/$prefix$repoId/resolve/main/$($env:HF_FILE_PATH)?download=true"
           $notes = @"
           # CraftPlan $env:VERSION
 
-          Download the portable Windows ZIP:
+          Download the portable Windows ZIP from the GitHub Release assets below, or use the Hugging Face mirror:
 
           [$env:PACKAGE_NAME.zip]($downloadUrl)
 
-          This GitHub Release points to the ZIP hosted on Hugging Face. CraftPlan does not include an automatic update system; download a newer release manually when needed.
+          CraftPlan does not include an automatic update system; download a newer release manually when needed.
 
           Basic use:
 
@@ -148,3 +148,5 @@ jobs:
           } else {
             gh release create $tag --title "CraftPlan $env:VERSION" --notes-file "$env:RELEASE_NOTES" --latest
           }
+
+          gh release upload $tag "$env:ZIP_PATH" --clobber
