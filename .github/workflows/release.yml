@@ -40,7 +40,7 @@ jobs:
         shell: pwsh
         run: |
           $version = (Get-Content package.json | ConvertFrom-Json).version
-          $packageName = "CraftPlan-v$version-portable"
+          $packageName = "CraftPlanner-v$version-portable"
           $stageRoot = Join-Path $env:RUNNER_TEMP $packageName
           $zipPath = Join-Path $env:GITHUB_WORKSPACE "$packageName.zip"
 
@@ -50,7 +50,7 @@ jobs:
           New-Item -ItemType Directory -Force -Path (Join-Path $stageRoot "CraftPlanData/backups") | Out-Null
           New-Item -ItemType Directory -Force -Path (Join-Path $stageRoot "CraftPlanData/exports") | Out-Null
 
-          Copy-Item "src-tauri/target/release/craftplan.exe" (Join-Path $stageRoot "CraftPlan.exe")
+          Copy-Item "src-tauri/target/release/craftplanner.exe" (Join-Path $stageRoot "CraftPlanner.exe")
           Copy-Item "README.md" (Join-Path $stageRoot "README.md")
           Copy-Item "docs/apps-script/CraftPlanSync.gs" (Join-Path $stageRoot "CraftPlanSync.gs")
 
@@ -89,7 +89,7 @@ jobs:
               path_in_repo=os.environ["HF_FILE_PATH"],
               repo_id=os.environ["HF_REPO_ID"],
               repo_type=os.environ.get("HF_REPO_TYPE", "model"),
-              commit_message=f"Upload CraftPlan {os.environ['VERSION']} portable ZIP",
+              commit_message=f"Upload CraftPlanner {os.environ['VERSION']} portable ZIP",
           )
           '@ | python -
 
@@ -106,20 +106,20 @@ jobs:
           }
           $downloadUrl = "https://huggingface.co/$prefix$repoId/resolve/main/$($env:HF_FILE_PATH)?download=true"
           $notes = @"
-          # CraftPlan $env:VERSION
+          # CraftPlanner $env:VERSION
 
           Download the portable Windows ZIP from the GitHub Release assets below, or use the Hugging Face mirror:
 
           [$env:PACKAGE_NAME.zip]($downloadUrl)
 
-          CraftPlan does not include an automatic update system; download a newer release manually when needed.
+          CraftPlanner does not include an automatic update system; download a newer release manually when needed.
 
           Basic use:
 
           1. Download the ZIP.
           2. Extract it to a writable folder.
-          3. Open `CraftPlan.exe`.
-          4. Keep `CraftPlan.exe` and `CraftPlanData` together.
+          3. Open `CraftPlanner.exe`.
+          4. Keep `CraftPlanner.exe` and `CraftPlanData` together.
           "@
           $notesPath = Join-Path $env:RUNNER_TEMP "release-notes.md"
           $notes | Set-Content -Path $notesPath
@@ -144,9 +144,9 @@ jobs:
 
           $existing = gh release view $tag --json tagName 2>$null
           if ($LASTEXITCODE -eq 0) {
-            gh release edit $tag --title "CraftPlan $env:VERSION" --notes-file "$env:RELEASE_NOTES" --latest
+            gh release edit $tag --title "CraftPlanner $env:VERSION" --notes-file "$env:RELEASE_NOTES" --latest
           } else {
-            gh release create $tag --title "CraftPlan $env:VERSION" --notes-file "$env:RELEASE_NOTES" --latest
+            gh release create $tag --title "CraftPlanner $env:VERSION" --notes-file "$env:RELEASE_NOTES" --latest
           }
 
           gh release upload $tag "$env:ZIP_PATH" --clobber
