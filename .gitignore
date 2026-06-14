@@ -58,6 +58,7 @@ System Volume Information/
 
 # Local Superpowers/Codex workspace metadata
 .superpowers/
+docs/superpowers/
 .codex/
 
 # Temporary files
